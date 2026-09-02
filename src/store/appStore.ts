@@ -57,7 +57,7 @@ export const useAppStore = create<AppState>()(
       sessionId: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
       deliveryLocation: null,
       setDeliveryLocation: (location) => set({ deliveryLocation: location }),
-      deliveryPreference: 'BALANCED',
+      deliveryPreference: 'FASTEST',
       setDeliveryPreference: (pref) => set({ deliveryPreference: pref }),
       demoOverrides: {
         weatherWmoCode: null,
