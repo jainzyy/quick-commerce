@@ -333,11 +333,11 @@ export default function CheckoutPage() {
                       <div>
                         <div className="flex items-center gap-2 mb-1">
                           <Icon size={18} className={option.mode === 'EV' ? 'text-green-500' : 'text-indigo-600'} />
-                          <h3 className="font-bold text-lg">{option.mode === 'ICE' ? 'REGULAR' : option.mode}</h3>
+                          <h3 className="font-bold text-lg">{option.mode === 'ICE' ? 'Standard Delivery' : option.mode === 'EV' ? 'Eco Delivery' : 'Sky Delivery'}</h3>
                         </div>
                         {option.subType && (
                           <div className="text-xs font-semibold text-gray-500 bg-gray-100 inline-block px-2 py-0.5 rounded">
-                            {option.subType} Class
+                            {option.subType} Class Drone
                           </div>
                         )}
                       </div>
@@ -348,24 +348,24 @@ export default function CheckoutPage() {
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4 mb-4 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                    <div className="flex items-center justify-between mb-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
                       <div>
-                        <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">ETA</div>
-                        <div className="font-bold text-xl flex items-baseline gap-1">
-                          {Math.round(option.etaMinutes || 0)} <span className="text-sm font-medium text-gray-500">min</span>
+                        <div className="text-3xl font-extrabold text-indigo-600 leading-none">
+                          {Math.round(option.etaMinutes || 0)} <span className="text-lg font-bold">MINS</span>
                         </div>
+                        <div className="text-xs font-medium text-gray-500 mt-1 uppercase tracking-wide">Delivery Time</div>
                       </div>
-                      <div>
-                        <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Fee</div>
-                        <div className="font-bold text-xl flex items-baseline gap-1">
+                      <div className="text-right">
+                        <div className="text-2xl font-bold leading-none">
                           {option.customerFee === 0 ? <span className="text-green-500">FREE</span> : `₹${Math.round(option.customerFee)}`}
                         </div>
+                        <div className="text-xs font-medium text-gray-500 mt-1 uppercase tracking-wide">Delivery Fee</div>
                       </div>
                     </div>
                     
-                    <div className="mb-4">
+                    <div>
                       <div className="flex items-center gap-2 text-xs font-medium text-gray-600 mb-1">
-                        <Leaf size={14} className="text-green-500" /> 
+                        <Leaf size={14} className={option.mode === 'ICE' ? 'text-gray-400' : 'text-green-500'} /> 
                         {Math.round(option.carbonEmissionsGrams || 0)}g CO₂ emissions
                       </div>
                       <div className="flex items-center gap-2 text-xs font-medium text-gray-600">
@@ -374,11 +374,6 @@ export default function CheckoutPage() {
                       </div>
                     </div>
                     
-                    {/* Internal Cost indicator (Admin/Debug) */}
-                    <div className="mt-auto pt-3 border-t text-[10px] text-gray-400 flex justify-between">
-                      <span>Internal cost: ₹{(option.internalCost || 0).toFixed(1)}</span>
-                      <span>Score: {(option.score || 0).toFixed(2)}</span>
-                    </div>
                   </div>
                 );
               })}
@@ -497,7 +492,29 @@ export default function CheckoutPage() {
             </div>
             
             <h1 className="text-3xl font-bold mb-2">Order Confirmed!</h1>
-            <p className="text-gray-600 mb-8">Your order #{orderId} has been successfully placed.</p>
+            <p className="text-gray-600 mb-6">Your order #{orderId} has been successfully placed.</p>
+            
+            {(() => {
+              const selectedOption = deliveryResult?.options.find((o:any)=>`${o.mode}-${o.subType || 'default'}`===selectedModeId);
+              const iceOption = deliveryResult?.options.find((o:any)=>o.mode === 'ICE');
+              if (selectedOption && iceOption && selectedOption.carbonEmissionsGrams < iceOption.carbonEmissionsGrams) {
+                const saved = Math.round(iceOption.carbonEmissionsGrams - selectedOption.carbonEmissionsGrams);
+                if (saved > 0) {
+                  return (
+                    <div className="bg-green-50 border border-green-200 rounded-2xl p-4 mb-8 flex items-center gap-4 text-green-800 text-left">
+                      <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <Leaf size={24} className="text-green-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-lg">Eco-friendly Choice!</h4>
+                        <p className="text-sm opacity-90">You saved <strong>{saved}g of CO₂</strong> compared to regular delivery.</p>
+                      </div>
+                    </div>
+                  );
+                }
+              }
+              return null;
+            })()}
             
             <div className="mb-8">
               <DeliveryMap 
