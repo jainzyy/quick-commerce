@@ -33,7 +33,7 @@ A full-stack mock quick-commerce platform that simulates an online shopping expe
 
 ## Features
 * **Dynamic Delivery Engine:** Calculates ETA, Cost, CO₂ emissions, and Mode Eligibility in real-time.
-* **AI Recommendation Engine:** Multi-objective scoring based on user preference (Fastest, Cheapest, Sustainable, Balanced).
+* **AI Recommendation Engine:** Multi-objective scoring based on user preference (Fastest, Cheapest, Sustainable).
 * **Developer Panel:** (`/admin`) Simulate weather, traffic, and fleet availability to stress-test the delivery engine.
 * **End-to-End Flow:** Browse products, build a cart, test address serviceability, checkout, and view analytics.
 
