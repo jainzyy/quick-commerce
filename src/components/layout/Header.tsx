@@ -73,7 +73,7 @@ export default function Header() {
           {/* Desktop Location Selector */}
           <button onClick={() => setShowLocationModal(true)} className="hidden md:flex items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 truncate max-w-[200px] cursor-pointer">
             <MapPin size={18} className="text-indigo-600 flex-shrink-0" />
-            <span className="truncate">{deliveryLocation?.address || 'Select Delivery Location'}</span>
+            <span className="truncate" suppressHydrationWarning>{deliveryLocation?.address || 'Select Delivery Location'}</span>
           </button>
 
           {/* Desktop Search */}
@@ -92,10 +92,10 @@ export default function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-4 flex-shrink-0">
-            <Link href="/cart" className="relative p-2 text-gray-700 hover:text-indigo-600">
+            <Link href="/cart" className="relative p-2 text-gray-700 hover:text-indigo-600" suppressHydrationWarning>
               <ShoppingCart size={24} />
               {itemCount > 0 && (
-                <span className="absolute top-0 right-0 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                <span className="absolute top-0 right-0 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center" suppressHydrationWarning>
                   {itemCount}
                 </span>
               )}
@@ -107,7 +107,7 @@ export default function Header() {
         <div className="flex md:hidden items-center gap-2 mt-3">
           <button onClick={() => setShowLocationModal(true)} className="flex items-center gap-1 text-xs text-gray-700 hover:text-indigo-600 cursor-pointer border rounded-full px-3 py-2 bg-gray-50 max-w-[140px]">
             <MapPin size={14} className="text-indigo-600 flex-shrink-0" />
-            <span className="truncate font-medium">{deliveryLocation?.address || 'Location'}</span>
+            <span className="truncate font-medium" suppressHydrationWarning>{deliveryLocation?.address || 'Location'}</span>
           </button>
           
           <form onSubmit={handleSearch} className="flex-1 relative">

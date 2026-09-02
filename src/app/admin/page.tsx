@@ -20,7 +20,9 @@ export default function AdminPage() {
   }, []);
 
   const orders = events.filter(e => e.event_name === 'order_completed');
-  const totalRevenue = orders.reduce((sum, o) => sum + (o.cart_value || 0), 0);
+  const totalRevenue = orders.reduce((sum, o) => sum + (o.cart_value || 0) + (o.delivery_cost || 0), 0);
+  const totalOperatingCost = orders.reduce((sum, o) => sum + (o.estimated_operating_cost || 0), 0);
+  const margin = totalRevenue - totalOperatingCost - orders.reduce((sum, o) => sum + (o.cart_value || 0) * 0.7, 0);
   const avgEta = orders.length ? (orders.reduce((sum, o) => sum + (o.estimated_eta || 0), 0) / orders.length).toFixed(1) : '0.0';
   const totalCo2 = orders.reduce((sum, o) => sum + (o.estimated_co2 || 0), 0);
   
@@ -212,30 +214,42 @@ export default function AdminPage() {
         {activeTab === 'ANALYTICS' && (
           <div className="space-y-8 animate-fade-in">
             {/* Business KPIs */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="bg-white border rounded-xl p-6 shadow-sm border-l-4 border-l-indigo-600">
-                <div className="text-gray-500 text-sm font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
-                  <Package size={16} /> Total Orders
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              <div className="bg-white border rounded-xl p-4 shadow-sm border-l-4 border-l-indigo-600">
+                <div className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1">
+                  <Package size={14} /> Total Orders
                 </div>
-                <div className="text-3xl font-black text-gray-900">{orders.length}</div>
+                <div className="text-2xl font-black text-gray-900">{orders.length}</div>
               </div>
-              <div className="bg-white border rounded-xl p-6 shadow-sm border-l-4 border-l-green-600">
-                <div className="text-gray-500 text-sm font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
-                  <IndianRupee size={16} /> Total Revenue
+              <div className="bg-white border rounded-xl p-4 shadow-sm border-l-4 border-l-green-600">
+                <div className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1">
+                  <IndianRupee size={14} /> Total Revenue
                 </div>
-                <div className="text-3xl font-black text-gray-900">₹{totalRevenue.toFixed(0)}</div>
+                <div className="text-2xl font-black text-gray-900">₹{totalRevenue.toFixed(0)}</div>
               </div>
-              <div className="bg-white border rounded-xl p-6 shadow-sm border-l-4 border-l-blue-600">
-                <div className="text-gray-500 text-sm font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
-                  <Clock size={16} /> Avg Delivery ETA
+              <div className="bg-white border rounded-xl p-4 shadow-sm border-l-4 border-l-red-500">
+                <div className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1">
+                  <Activity size={14} /> Operating Cost
                 </div>
-                <div className="text-3xl font-black text-gray-900">{avgEta} <span className="text-base font-medium text-gray-500">min</span></div>
+                <div className="text-2xl font-black text-gray-900">₹{totalOperatingCost.toFixed(0)}</div>
               </div>
-              <div className="bg-white border rounded-xl p-6 shadow-sm border-l-4 border-l-teal-600">
-                <div className="text-gray-500 text-sm font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
-                  <Leaf size={16} /> Total CO2 Emitted
+              <div className="bg-white border rounded-xl p-4 shadow-sm border-l-4 border-l-purple-600">
+                <div className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1">
+                  <TrendingUp size={14} /> Net Margin
                 </div>
-                <div className="text-3xl font-black text-gray-900">{(totalCo2 / 1000).toFixed(2)} <span className="text-base font-medium text-gray-500">kg</span></div>
+                <div className="text-2xl font-black text-gray-900">₹{margin.toFixed(0)}</div>
+              </div>
+              <div className="bg-white border rounded-xl p-4 shadow-sm border-l-4 border-l-blue-600">
+                <div className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1">
+                  <Clock size={14} /> Avg ETA
+                </div>
+                <div className="text-2xl font-black text-gray-900">{avgEta} <span className="text-sm font-medium text-gray-500">min</span></div>
+              </div>
+              <div className="bg-white border rounded-xl p-4 shadow-sm border-l-4 border-l-teal-600">
+                <div className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1">
+                  <Leaf size={14} /> CO2 Emitted
+                </div>
+                <div className="text-2xl font-black text-gray-900">{(totalCo2 / 1000).toFixed(2)} <span className="text-sm font-medium text-gray-500">kg</span></div>
               </div>
             </div>
 

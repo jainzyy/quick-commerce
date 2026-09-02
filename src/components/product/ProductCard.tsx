@@ -75,7 +75,7 @@ export default function ProductCard({ product }: { product: Product }) {
       <h3 className="font-semibold text-sm leading-tight mb-1 line-clamp-2 min-h-[40px]">{product.name}</h3>
       <div className="text-xs text-gray-500 mb-2">{product.weight}{product.unit}</div>
       
-      <div className="mt-auto flex items-center justify-between">
+      <div className="mt-auto flex items-center justify-between" suppressHydrationWarning>
         <div>
           <div className="font-bold text-base">₹{product.price}</div>
           {product.mrp > product.price && (

@@ -140,7 +140,9 @@ export default function CheckoutPage() {
         estimated_eta: selectedOption.etaMinutes,
         estimated_co2: selectedOption.carbonEmissionsGrams,
         cart_value: getCartTotal(),
-        customer_preference: useAppStore.getState().deliveryPreference
+        customer_preference: useAppStore.getState().deliveryPreference,
+        estimated_operating_cost: selectedOption.internalCost,
+        delivery_cost: selectedOption.customerFee
       });
       
       clearCart();
