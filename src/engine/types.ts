@@ -2,7 +2,7 @@ export type DeliveryMode = 'ICE' | 'EV' | 'DRONE';
 export type DroneClassType = 'SMALL' | 'MEDIUM' | 'HEAVY';
 export type TrafficState = 'LOW' | 'MODERATE' | 'HIGH' | 'SEVERE';
 export type WeatherCondition = 'CLEAR' | 'CLOUDY' | 'LIGHT_RAIN' | 'HEAVY_RAIN' | 'THUNDERSTORM' | 'HIGH_WIND';
-export type PreferenceWeight = 'FASTEST' | 'CHEAPEST' | 'SUSTAINABLE' | 'BALANCED' | 'BEST_VALUE';
+export type PreferenceWeight = 'FASTEST' | 'CHEAPEST' | 'SUSTAINABLE';
 
 export interface CartItem {
   id: string;

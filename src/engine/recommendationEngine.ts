@@ -3,9 +3,7 @@ import { DeliveryOption, ScoredOption, PreferenceWeight } from './types';
 const weights = {
   FASTEST: { time: 0.6, cost: 0.15, sustainability: 0.1, reliability: 0.15 },
   CHEAPEST: { time: 0.15, cost: 0.6, sustainability: 0.1, reliability: 0.15 },
-  SUSTAINABLE: { time: 0.1, cost: 0.15, sustainability: 0.6, reliability: 0.15 },
-  BALANCED: { time: 0.3, cost: 0.3, sustainability: 0.2, reliability: 0.2 },
-  BEST_VALUE: { time: 0.25, cost: 0.35, sustainability: 0.15, reliability: 0.25 }
+  SUSTAINABLE: { time: 0.1, cost: 0.15, sustainability: 0.6, reliability: 0.15 }
 };
 
 export function scoreDeliveryOptions(options: DeliveryOption[], preference: PreferenceWeight): ScoredOption[] {

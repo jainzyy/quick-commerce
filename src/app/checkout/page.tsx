@@ -11,7 +11,7 @@ import dynamic from 'next/dynamic';
 
 const DeliveryMap = dynamic(() => import('@/components/map/DeliveryMap'), { ssr: false });
 import { SAMPLE_LOCATIONS, RECOMMENDATION_WEIGHTS } from '@/config/delivery';
-import { MapPin, CheckCircle, Navigation, AlertCircle, Clock, Zap, Leaf, Truck, Shield, Cloud, Car } from 'lucide-react';
+import { MapPin, CheckCircle, Navigation, AlertCircle, Clock, Zap, Leaf, Truck, Shield, Cloud, Car, Drone } from 'lucide-react';
 
 type Step = 'ADDRESS' | 'DELIVERY' | 'PAYMENT' | 'CONFIRMATION';
 
@@ -288,7 +288,7 @@ export default function CheckoutPage() {
                 
                 <div className="flex flex-wrap gap-2">
                   <span className="text-xs font-bold text-gray-500 uppercase tracking-wide mr-2 self-center">Optimize for:</span>
-                  {Object.keys(RECOMMENDATION_WEIGHTS).map((pref) => (
+                  {['FASTEST', 'CHEAPEST', 'SUSTAINABLE'].map((pref) => (
                     <button
                       key={pref}
                       onClick={() => handlePreferenceChange(pref)}
@@ -314,7 +314,7 @@ export default function CheckoutPage() {
                 // Determine icon based on mode
                 let Icon = Truck;
                 if (option.mode === 'EV') Icon = Leaf;
-                if (option.mode === 'DRONE') Icon = Navigation;
+                if (option.mode === 'DRONE') Icon = Drone;
 
                 return (
                   <div 

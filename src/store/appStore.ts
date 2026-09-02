@@ -14,7 +14,7 @@ interface AppState {
   deliveryLocation: Location | null;
   setDeliveryLocation: (location: Location | null) => void;
   // User Preference
-  deliveryPreference: 'FASTEST' | 'CHEAPEST' | 'SUSTAINABLE' | 'BALANCED' | 'BEST_VALUE';
+  deliveryPreference: 'FASTEST' | 'CHEAPEST' | 'SUSTAINABLE';
   setDeliveryPreference: (pref: AppState['deliveryPreference']) => void;
   // Admin Overrides (for demo)
   demoOverrides: {
