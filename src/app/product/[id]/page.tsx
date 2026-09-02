@@ -14,7 +14,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
     args: [id]
   });
   const row = result.rows[0];
-  const product = row ? Object.fromEntries(Object.entries(row)) : null;
+  const product = row ? (Object.fromEntries(Object.entries(row)) as any) : null;
 
   if (!product) {
     notFound();
