@@ -13,7 +13,8 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
     sql: 'SELECT * FROM products WHERE id = ?',
     args: [id]
   });
-  const product = result.rows[0] as any;
+  const row = result.rows[0];
+  const product = row ? Object.fromEntries(Object.entries(row)) : null;
 
   if (!product) {
     notFound();

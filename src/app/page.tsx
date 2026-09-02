@@ -37,7 +37,7 @@ export default async function Home(props: { searchParams: Promise<{ search?: str
   query += ' ORDER BY stock DESC, rating DESC LIMIT 60';
   
   const productsResult = await db.execute({ sql: query, args: params });
-  const products = productsResult.rows as unknown as any[];
+  const products = productsResult.rows.map(row => Object.fromEntries(Object.entries(row)));
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
