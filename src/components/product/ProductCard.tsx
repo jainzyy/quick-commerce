@@ -1,7 +1,5 @@
 'use client';
 
-import Image from 'next/image';
-import { useState, useEffect } from 'react';
 import { useCartStore } from '@/store/cartStore';
 import { trackEvent } from '@/analytics/tracker';
 
@@ -59,47 +57,67 @@ export default function ProductCard({ product }: { product: Product }) {
     ? Math.round(((product.mrp - product.price) / product.mrp) * 100) 
     : 0;
 
+  const savings = product.mrp - product.price;
+
   return (
-    <div className="border rounded-xl p-3 flex flex-col hover:shadow-lg transition-shadow bg-white relative">
+    <div className="bg-surface-container-lowest rounded-xl p-space-sm flex flex-col justify-between shadow-sm hover:shadow-md transition-all group relative border border-outline-variant/30 hover:border-outline-variant">
       {discountPercent > 0 && (
-        <div className="absolute top-2 left-2 bg-indigo-600 text-white text-[10px] font-bold px-2 py-1 rounded">
-          {discountPercent}% OFF
+        <div className="absolute top-space-xs left-space-xs z-10">
+          <span className="bg-error text-on-error font-label-badge text-label-badge px-2 py-0.5 rounded-full font-bold">
+            {discountPercent}% OFF
+          </span>
         </div>
       )}
       
-      <div className="w-full aspect-square bg-gray-50 rounded-lg mb-3 flex items-center justify-center text-6xl">
+      <div className="w-full aspect-square bg-surface-container-low/60 rounded-lg flex items-center justify-center text-5xl relative group-hover:scale-105 transition-transform overflow-hidden">
         {product.image}
+        <span className="absolute bottom-1 right-1 font-label-badge text-[10px] bg-surface-container-lowest/90 px-1.5 py-0.5 rounded text-primary font-bold">
+          ⚡ 10 mins
+        </span>
       </div>
       
-      <div className="text-xs text-gray-500 mb-1">{product.brand}</div>
-      <h3 className="font-semibold text-sm leading-tight mb-1 line-clamp-2 min-h-[40px]">{product.name}</h3>
-      <div className="text-xs text-gray-500 mb-2">{product.weight}{product.unit}</div>
-      
-      <div className="mt-auto flex items-center justify-between" suppressHydrationWarning>
-        <div>
-          <div className="font-bold text-base">₹{product.price}</div>
-          {product.mrp > product.price && (
-            <div className="text-xs text-gray-400 line-through">₹{product.mrp}</div>
+      <div className="mt-space-xs flex-1 flex flex-col">
+        <span className="font-label-badge text-label-badge uppercase tracking-wider text-outline truncate">{product.brand}</span>
+        <h3 className="font-headline-sm text-sm font-bold text-on-surface line-clamp-2 leading-tight min-h-[40px] mt-1">{product.name}</h3>
+        <span className="font-body-sm text-body-sm text-on-surface-variant mt-0.5">{product.weight}{product.unit}</span>
+        
+        <div className="mt-auto pt-space-xs flex flex-col" suppressHydrationWarning>
+          <div className="flex items-baseline gap-1.5">
+            <span className="font-price-lg text-headline-sm font-bold text-on-surface">₹{product.price}</span>
+            {product.mrp > product.price && (
+              <span className="font-price-strike text-price-strike line-through text-outline">₹{product.mrp}</span>
+            )}
+          </div>
+          {savings > 0 ? (
+             <span className="font-body-sm text-[11px] text-primary font-semibold min-h-[16px]">Save ₹{savings.toFixed(2)}</span>
+          ) : (
+             <span className="min-h-[16px]"></span>
           )}
         </div>
-        
+      </div>
+      
+      <div className="mt-space-sm" suppressHydrationWarning>
         {product.stock === 0 ? (
-          <div className="text-xs font-bold text-red-500 bg-red-50 px-2 py-1 rounded">
+          <div className="w-full bg-error-container text-on-error-container font-label-button text-label-button py-1.5 rounded-lg flex items-center justify-center text-xs">
             OUT OF STOCK
           </div>
         ) : quantityInCart === 0 ? (
           <button 
             type="button"
             onClick={handleAdd}
-            className="border border-indigo-600 text-indigo-600 font-medium px-4 py-1.5 rounded-lg hover:bg-indigo-50 transition-colors text-sm relative z-10 select-none touch-manipulation"
+            className="w-full bg-surface-container-lowest hover:bg-secondary-container text-primary border border-primary/30 font-label-button text-label-button py-1.5 px-space-xs rounded-lg transition-colors flex items-center justify-center gap-1 shadow-sm relative z-10 touch-manipulation"
           >
-            ADD
+            <span className="material-symbols-outlined text-[16px]">add</span> ADD
           </button>
         ) : (
-          <div className="flex items-center gap-2 bg-indigo-600 text-white rounded-lg relative z-10 select-none touch-manipulation">
-            <button type="button" onClick={handleRemove} className="px-2.5 py-1.5 hover:bg-indigo-700 rounded-l-lg">-</button>
-            <span className="font-medium text-sm w-4 text-center">{quantityInCart}</span>
-            <button type="button" onClick={handleAdd} className="px-2.5 py-1.5 hover:bg-indigo-700 rounded-r-lg">+</button>
+          <div className="w-full bg-primary text-on-primary rounded-lg flex items-center justify-between px-2 py-1 shadow-sm relative z-10 touch-manipulation">
+            <button type="button" onClick={handleRemove} className="w-6 h-6 rounded flex items-center justify-center hover:bg-primary-container text-on-primary transition-colors">
+              <span className="material-symbols-outlined text-[16px]">remove</span>
+            </button>
+            <span className="font-label-button text-label-button">{quantityInCart}</span>
+            <button type="button" onClick={handleAdd} className="w-6 h-6 rounded flex items-center justify-center hover:bg-primary-container text-on-primary transition-colors">
+              <span className="material-symbols-outlined text-[16px]">add</span>
+            </button>
           </div>
         )}
       </div>
