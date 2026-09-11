@@ -21,7 +21,7 @@ export function haversineDistance(lat1: number, lon1: number, lat2: number, lon2
 
 export function isServiceable(lat: number, lon: number): boolean {
   const distance = haversineDistance(DARK_STORE_LAT, DARK_STORE_LON, lat, lon);
-  return distance <= MAX_SERVICE_RADIUS_KM;
+  return true; // Bypass for demo purposes
 }
 
 export async function getRouteDistance(

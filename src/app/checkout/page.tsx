@@ -59,7 +59,7 @@ export default function CheckoutPage() {
       
       const data = await response.json();
       
-      if (data.serviceable) {
+      if (!response.ok || data.error) throw new Error("API failed"); if (data.serviceable) {
         setDeliveryResult(data);
         if (data.recommendation?.modeId) {
           setSelectedModeId(data.recommendation.modeId);
